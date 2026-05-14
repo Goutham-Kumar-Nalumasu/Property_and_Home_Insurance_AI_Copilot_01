@@ -1,0 +1,50 @@
+homeshield-insurance-copilot/
+│
+├── README.md
+├── requirements.txt
+├── .env.example
+├── .env
+├── Dockerfile
+├── docker-compose.yml
+│
+├── data/
+│   ├── raw/
+│   │   ├── HomePolicy_STANDARD_HomeShield.pdf
+│   │   ├── HomePolicy_COMPREHENSIVE_HomeShield.pdf
+│   │   ├── HomePolicy_LANDLORD_HomeShield.pdf
+│   │   ├── HomeInsurance_Glossary_HomeShield.pdf
+│   │   ├── Perils_Exclusions_ReferenceGuide_HomeShield.pdf
+│   │   └── PropertyDamage_RepairCostTable.csv
+│   │
+│   ├── processed/
+│   │   └── chunks.json
+│   │
+│   └── memory/
+│       └── sessions.json
+│
+├── app/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── schemas.py
+│   ├── memory.py
+│   ├── document_loader.py
+│   ├── rag.py
+│   ├── guardrails.py
+│   ├── agent.py
+│   ├── main.py
+|   ├── llm_client.py
+│   │
+│   ├── frontend/
+│   │   ├── __init__.py
+│   │   └── streamlit_app.py
+│   │
+│   └── tools/
+│       ├── __init__.py
+│       ├── damage_estimator.py
+│       ├── claim_status.py
+│       └── policy_compare.py
+│
+└── tests/
+    ├── test_damage_estimator.py
+    ├── test_memory.py
+    └── test_guardrails.py
