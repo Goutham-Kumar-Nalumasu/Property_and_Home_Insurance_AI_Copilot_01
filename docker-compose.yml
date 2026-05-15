@@ -1,6 +1,13 @@
 version: "3.9"
 
 services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
   api:
     build: .
     container_name: homeshield-api
@@ -8,7 +15,13 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - MEM0_HOST=qdrant
+      - MEM0_PORT=6333
+      - MCP_SERVER_HOST=0.0.0.0
+    command: bash -c "python -m app.mcp_server & uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    depends_on:
+      - qdrant
 
   streamlit:
     build: .
@@ -20,3 +33,6 @@ services:
     command: streamlit run app/frontend/streamlit_app.py --server.address 0.0.0.0
     depends_on:
       - api
+
+volumes:
+  qdrant_data:
