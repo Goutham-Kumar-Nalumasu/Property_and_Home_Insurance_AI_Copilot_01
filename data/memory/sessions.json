@@ -119,5 +119,137 @@
     "claim_id": null,
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
+  },
+  "session-43f64b37-eb4f-4951-8de8-3c2130a6b083": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-0e59f9a9-cd15-42fb-8ccf-09ccbb11ee41": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-216cdcf8-48f4-47c1-bbff-965d32bedc38": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "test-session": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-6e284059-57f8-49b7-a59c-f2fe95c17808": {
+    "policy_type": "Standard",
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": "CLM12345",
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-a3a623ad-8aa3-469a-9022-847a23f17b0c": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": "CLM67890",
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-f79c17d1-6923-4f5a-ba35-75ae1d97b183": {
+    "policy_type": "Standard",
+    "property_type": null,
+    "property_size_category": "3-bed semi-detached house",
+    "postcode": null,
+    "damage_type": "burst pipe",
+    "peril_category": "Water",
+    "claim_id": "CLM1234",
+    "last_user_intent": "claim_status",
+    "conversation_summary": ""
+  },
+  "session-346ded5e-9505-4519-8126-783cb9765301": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-a6dcf96e-787b-4cde-bbb6-2252205daa0d": {
+    "policy_type": "Comprehensive",
+    "property_type": null,
+    "property_size_category": "4-bed detached house",
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": "Storm",
+    "claim_id": "CLMSTORM01",
+    "last_user_intent": "claim_status",
+    "conversation_summary": ""
+  },
+  "session-169ea6bb-5741-4a3f-bfaa-a90e704b231e": {
+    "policy_type": "Standard",
+    "property_type": null,
+    "property_size_category": "3-bed semi-detached house",
+    "postcode": null,
+    "damage_type": "burst pipe",
+    "peril_category": "Water",
+    "claim_id": "CLM12345",
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-a87d56bb-589b-4830-a38a-5333fd7a9290": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-100d34cf-c8d7-4554-8b91-481abe2de4e7": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": "CLM12345",
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
   }
 }
