@@ -1,0 +1,42 @@
+3. Connect Local Repo to GitHub Branch
+----------------------------------------
+# Step 1: Initialize git (skip if already a git repo)
+git init
+
+# Step 2: Add remote origin (skip if already added)
+git remote add origin https://github.com/Goutham-Kumar-Nalumasu/Property_and_Home_Insurance_AI_Copilot_01.git
+
+# Step 3: Fetch all branches from remote
+git fetch origin
+
+# Step 4: Switch to the develop branch
+git checkout develop
+# OR if branch doesn't exist locally yet:
+git checkout -b develop origin/develop
+
+
+4. Stage, Commit & Push
+-----------------------
+# Stage all files (respects .gitignore automatically)
+git add .
+
+# Verify what's being staged — confirm .env is NOT listed
+git status
+
+# Commit your changes
+git commit -m "your commit message here"
+
+# Push to develop branch
+git push origin develop
+
+
+
+
+
+
+if you see .env is not ignored  use 
+-----------------------
+git rm --cached .env
+git rm --cached new-key.txt
+git commit -m "remove sensitive files from tracking"
+git push origin develop
