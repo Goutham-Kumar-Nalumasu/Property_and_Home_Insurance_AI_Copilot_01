@@ -7,13 +7,13 @@ import streamlit as st
 # Page config
 st.set_page_config(
     page_title="HomeShield Insurance Copilot",
-    page_icon="home",
+    page_icon="🏠",
     layout="wide"
 )
 
 
 # Import settings
-sys.path.append(r"/home/ubuntu/homeshield-insurance-copilot_01/app")
+sys.path.append("/home/ubuntu/homeshield-insurance-copilot_01/app")
 
 try:
     from config import settings
@@ -23,48 +23,13 @@ except Exception as exc:
     st.stop()
 
 
-# Demo claim mapping
-CLAIM_POLICY_MAP = {
-    "CLM12345": {
-        "policy_type": "Standard",
-        "property_size": "3-bed semi-detached house",
-        "damage_type": "burst pipe"
-    },
-    "CLMWATER01": {
-        "policy_type": "Standard",
-        "property_size": "3-bed semi-detached house",
-        "damage_type": "water damage"
-    },
-    "CLMSTORM01": {
-        "policy_type": "Comprehensive",
-        "property_size": "4-bed detached house",
-        "damage_type": "storm damage"
-    },
-    "CLMFIRE01": {
-        "policy_type": "Comprehensive",
-        "property_size": "3-bed detached house",
-        "damage_type": "fire damage"
-    },
-    "CLMTHEFT01": {
-        "policy_type": "Standard",
-        "property_size": "2-bed terraced house",
-        "damage_type": "theft"
-    },
-    "CLMTENANT01": {
-        "policy_type": "Landlord Plus",
-        "property_size": "3-bed semi-detached house",
-        "damage_type": "tenant malicious damage"
-    }
-}
-
-
 QUESTION_MENU = {
     "Coverage and Policy": [
-        "What does my home insurance cover?",
+        "What does home insurance cover?",
         "What is the buildings and contents cover limit in Standard policy?",
-        "What is not covered in my insurance policy?",
+        "What is not covered in insurance policy?",
         "What is covered under Standard buildings insurance?",
-        "What is my contents limit?"
+        "What is contents limit?"
     ],
     "Claims and Scenarios": [
         "My pipe burst and damaged the ceiling. Is this covered?",
@@ -85,7 +50,7 @@ QUESTION_MENU = {
         "Estimate repair cost for flood damage."
     ],
     "Policy Features": [
-        "Is accidental damage included in my policy?",
+        "Is accidental damage included in policy?",
         "What is the claim excess amount?",
         "Can I upgrade from Standard to Comprehensive?",
         "Compare Standard, Comprehensive, and Landlord Plus policies.",
@@ -93,7 +58,7 @@ QUESTION_MENU = {
         "What is home emergency cover?",
         "Is legal expenses cover included in my policy?"
     ],
-    "Claim Tracking": [
+    "Claim Guidance": [
         "What documents are required for a claim?",
         "How do I submit a claim?",
         "What happens after I register a claim?",
@@ -104,30 +69,36 @@ QUESTION_MENU = {
 }
 
 
-def build_claim_context_message(claim_id, question):
-    claim_id = claim_id.strip().upper()
+def build_question_message(category, question):
+    """
+    Builds a clearer prompt for each selected question.
 
-    if not claim_id:
-        return question
+    This avoids sending the same generic context for every button click.
+    It helps the backend produce different and more focused answers.
+    """
+    return (
+        f"Question category: {category}.\n"
+        f"User question: {question}\n\n"
 
-    claim_info = CLAIM_POLICY_MAP.get(claim_id)
+    )
 
-    if claim_info:
-        policy_type = claim_info["policy_type"]
-        property_size = claim_info["property_size"]
-        damage_type = claim_info["damage_type"]
 
-        message = (
-            "My claim ID is " + claim_id + ". "
-            "My policy type is " + policy_type + ". "
-            "My property size is " + property_size + ". "
-            "My claim or damage type is " + damage_type + ". "
-            + question
-        )
+def send_message_to_backend(user_message):
+    """
+    Sends user message to FastAPI backend and returns response JSON or error text.
+    """
+    payload = {
+        "session_id": st.session_state.session_id,
+        "message": user_message
+    }
 
-        return message
+    response = requests.post(
+        settings.API_BASE_URL + "/chat",
+        json=payload,
+        timeout=60
+    )
 
-    return "My claim ID is " + claim_id + ". " + question
+    return response
 
 
 # Header
@@ -184,40 +155,10 @@ with st.sidebar:
 
     st.header("Explore Questions")
 
-    claim_id_input = st.text_input(
-        "Enter Claim ID Optional",
-        placeholder="Example: CLMWATER01"
-    )
-
-    claim_id_clean = claim_id_input.strip().upper()
-
-    if claim_id_clean:
-        claim_info = CLAIM_POLICY_MAP.get(claim_id_clean)
-
-        if claim_info:
-            st.success("Claim found: " + claim_id_clean)
-            st.write("Policy Type: " + claim_info["policy_type"])
-            st.write("Property Size: " + claim_info["property_size"])
-            st.write("Damage Type: " + claim_info["damage_type"])
-        else:
-            st.warning(
-                "Claim ID not found in demo mapping. "
-                "Copilot will still answer using the entered claim ID."
-            )
-    else:
-        st.info("Ask queries relate to your Claim ID and General questions work without Claim ID.")
-
     category = st.selectbox(
         "Select Category",
         list(QUESTION_MENU.keys())
     )
-
-    if category == "Claim Tracking":
-        if st.button("Track My Claim"):
-            if claim_id_clean:
-                user_message = "Track claim " + claim_id_clean
-            else:
-                st.warning("Please enter a Claim ID to track your claim.")
 
     st.markdown("### Questions")
 
@@ -227,10 +168,7 @@ with st.sidebar:
         button_key = category + "_" + str(index)
 
         if st.button(question, key=button_key):
-            user_message = build_claim_context_message(
-                claim_id_clean,
-                question
-            )
+            user_message = build_question_message(category, question)
 
 
 # Display chat history
@@ -260,19 +198,10 @@ if user_message:
     with st.chat_message("user"):
         st.markdown(user_message)
 
-    payload = {
-        "session_id": st.session_state.session_id,
-        "message": user_message
-    }
-
     with st.chat_message("assistant"):
         try:
             with st.spinner("Thinking..."):
-                response = requests.post(
-                    settings.API_BASE_URL + "/chat",
-                    json=payload,
-                    timeout=60
-                )
+                response = send_message_to_backend(user_message)
 
             if response.status_code != 200:
                 error_message = "Backend returned status code: " + str(response.status_code)
