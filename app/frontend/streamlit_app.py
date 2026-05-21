@@ -1,3 +1,4 @@
+
 import uuid
 import sys
 import requests
@@ -107,6 +108,26 @@ def send_message_to_backend(user_message):
     return response
 
 
+def create_query_flow(user_message):
+
+    flow = []
+
+    flow.append("✅ User submitted question")
+    flow.append("➡️ Streamlit UI received query")
+    flow.append("➡️ Query added to session memory")
+    flow.append("➡️ Sending request to FastAPI backend")
+    flow.append("🧠 Intent Detection Completed")
+    flow.append("🗂️ Conversation Memory Retrieved")
+    flow.append("📚 Vector Search / RAG Retrieval Completed")
+    flow.append("🤖 LLM Generated Final Response")
+    flow.append("✅ Response Returned to User")
+
+    return {
+        "question": user_message,
+        "steps": flow
+    }
+
+
 # =========================================================
 # HEADER
 # =========================================================
@@ -125,6 +146,10 @@ if "session_id" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# STORES FLOW FOR EVERY QUERY
+if "all_query_flows" not in st.session_state:
+    st.session_state.all_query_flows = []
+
 if "selected_question" not in st.session_state:
     st.session_state.selected_question = None
 
@@ -135,12 +160,17 @@ if "selected_question" not in st.session_state:
 
 with st.sidebar:
 
-    st.header("Session")
+    st.header("🧾 Session")
     st.code(st.session_state.session_id)
 
-    if st.button("Clear chat"):
+    # =========================================================
+    # CLEAR CHAT
+    # =========================================================
+
+    if st.button("🗑️ Clear Chat"):
 
         st.session_state.messages = []
+        st.session_state.all_query_flows = []
 
         try:
             requests.delete(
@@ -152,9 +182,15 @@ with st.sidebar:
 
         st.rerun()
 
-    st.header("Document Ingestion")
+    st.markdown("---")
 
-    if st.button("Run ingestion"):
+    # =========================================================
+    # DOCUMENT INGESTION
+    # =========================================================
+
+    st.header("📂 Document Ingestion")
+
+    if st.button("🚀 Run Ingestion"):
 
         try:
 
@@ -164,9 +200,12 @@ with st.sidebar:
             )
 
             if response.status_code == 200:
-                st.success(response.json())
+
+                st.success("Ingestion completed successfully")
+                st.json(response.json())
 
             else:
+
                 st.error(
                     "Ingestion failed. Status code: "
                     + str(response.status_code)
@@ -175,7 +214,73 @@ with st.sidebar:
                 st.code(response.text)
 
         except Exception as exc:
+
             st.error("Ingestion failed: " + str(exc))
+
+    st.markdown("---")
+
+    # =========================================================
+    # QUERY EXECUTION FLOWS
+    # =========================================================
+
+    st.header("🔄 Query Execution Flow")
+
+    if st.session_state.all_query_flows:
+
+        # DISPLAY LATEST QUERY FIRST
+        reversed_flows = list(reversed(st.session_state.all_query_flows))
+
+        for index, query_data in enumerate(reversed_flows):
+
+            question_text = query_data["question"]
+
+            with st.expander(
+                f"Query {len(reversed_flows) - index}",
+                expanded=(index == 0)
+            ):
+
+                st.markdown("### User Query")
+
+                st.info(question_text)
+
+                st.markdown("### Execution Steps")
+
+                for step in query_data["steps"]:
+
+                    if "✅" in step:
+                        st.success(step)
+
+                    elif "➡️" in step:
+                        st.info(step)
+
+                    elif "🧠" in step:
+                        st.warning(step)
+
+                    elif "🗂️" in step:
+                        st.info(step)
+
+                    elif "📚" in step:
+                        st.info(step)
+
+                    elif "🤖" in step:
+                        st.warning(step)
+
+                    elif "❌" in step:
+                        st.error(step)
+
+                    else:
+                        st.write(step)
+
+    else:
+
+        st.info("Query execution flow will appear here.")
+
+
+# =========================================================
+# MAIN CHAT AREA
+# =========================================================
+
+st.subheader("💬 Insurance Assistant")
 
 
 # =========================================================
@@ -185,6 +290,7 @@ with st.sidebar:
 for message in st.session_state.messages:
 
     with st.chat_message(message["role"]):
+
         st.markdown(message["content"])
 
 
@@ -197,7 +303,7 @@ st.markdown("---")
 with st.expander("☰ Most Asked Questions", expanded=True):
 
     category = st.selectbox(
-        "Category",
+        "Select Category",
         list(QUESTION_MENU.keys())
     )
 
@@ -252,6 +358,10 @@ elif chat_input:
 
 if user_message:
 
+    # =========================================================
+    # STORE USER MESSAGE
+    # =========================================================
+
     st.session_state.messages.append(
         {
             "role": "user",
@@ -259,135 +369,30 @@ if user_message:
         }
     )
 
-    with st.chat_message("user"):
-        st.markdown(user_message)
+    # =========================================================
+    # CREATE FLOW FOR CURRENT QUERY
+    # =========================================================
 
-    with st.chat_message("assistant"):
+    current_flow = create_query_flow(user_message)
 
-        try:
+    # =========================================================
+    # API CALL
+    # =========================================================
 
-            with st.spinner("Thinking..."):
+    try:
 
-                response = send_message_to_backend(user_message)
+        response = send_message_to_backend(user_message)
 
-            if response.status_code != 200:
-
-                error_message = (
-                    "Backend returned status code: "
-                    + str(response.status_code)
-                )
-
-                st.error(error_message)
-                st.code(response.text)
-
-                st.session_state.messages.append(
-                    {
-                        "role": "assistant",
-                        "content": (
-                            error_message
-                            + "\n\n"
-                            + response.text
-                        )
-                    }
-                )
-
-            else:
-
-                data = response.json()
-
-                answer = data.get(
-                    "answer",
-                    "No answer returned from backend."
-                )
-
-                st.markdown(answer)
-
-                st.session_state.messages.append(
-                    {
-                        "role": "assistant",
-                        "content": answer
-                    }
-                )
-
-                with st.expander(
-                    "Intent, Memory and Sources"
-                ):
-
-                    st.subheader("Intent")
-
-                    st.code(
-                        data.get(
-                            "intent",
-                            "No intent returned"
-                        )
-                    )
-
-                    st.subheader("Memory")
-
-                    st.json(
-                        data.get(
-                            "memory",
-                            {}
-                        )
-                    )
-
-                    st.subheader("Sources")
-
-                    sources = data.get(
-                        "sources",
-                        []
-                    )
-
-                    if sources:
-
-                        for source in sources:
-
-                            document = source.get(
-                                "document",
-                                ""
-                            )
-
-                            chunk_id = str(
-                                source.get(
-                                    "chunk_id",
-                                    ""
-                                )
-                            )
-
-                            score = str(
-                                source.get(
-                                    "score",
-                                    ""
-                                )
-                            )
-
-                            st.markdown(
-                                "**" + document + "** "
-                                "Chunk `" + chunk_id + "` "
-                                "Score `" + score + "`"
-                            )
-
-                            st.caption(
-                                source.get(
-                                    "text_preview",
-                                    ""
-                                )
-                            )
-
-                    else:
-
-                        st.write(
-                            "No sources returned."
-                        )
-
-        except Exception as exc:
+        if response.status_code != 200:
 
             error_message = (
-                "Backend error: "
-                + str(exc)
+                "Backend returned status code: "
+                + str(response.status_code)
             )
 
-            st.error(error_message)
+            current_flow["steps"].append(
+                "❌ Backend Error"
+            )
 
             st.session_state.messages.append(
                 {
@@ -395,3 +400,46 @@ if user_message:
                     "content": error_message
                 }
             )
+
+        else:
+
+            data = response.json()
+
+            answer = data.get(
+                "answer",
+                "No answer returned from backend."
+            )
+
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content": answer
+                }
+            )
+
+    except Exception as exc:
+
+        error_message = (
+            "Backend error: "
+            + str(exc)
+        )
+
+        current_flow["steps"].append(
+            "❌ Backend Error"
+        )
+
+        st.session_state.messages.append(
+            {
+                "role": "assistant",
+                "content": error_message
+            }
+        )
+
+    # =========================================================
+    # SAVE QUERY FLOW HISTORY
+    # =========================================================
+
+    st.session_state.all_query_flows.append(current_flow)
+
+    st.rerun()
+
