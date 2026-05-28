@@ -1,10 +1,11 @@
 import json
 from pathlib import Path
 from typing import Dict, List
-
-from PyPDF2 import PdfReader
-
-from app.config import settings
+from pypdf import PdfReader
+#from PyPDF2 import PdfReader
+import sys
+sys.path.append('/home/ubuntu/homeshield-insurance-copilot_02/app')
+from config import settings
 
 
 def extract_pdf_text(pdf_path: Path) -> str:

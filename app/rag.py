@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from app.config import settings
+from config import settings
 
 
 class SimpleRAGRetriever:

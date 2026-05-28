@@ -1,8 +1,9 @@
 from typing import Any, Dict, List, Optional
-
+import sys
+sys.path.append("/home/ubuntu/homeshield-insurance-copilot_02/app")
 import pandas as pd
 
-from app.config import settings
+from config import settings
 
 
 class DamageEstimator:

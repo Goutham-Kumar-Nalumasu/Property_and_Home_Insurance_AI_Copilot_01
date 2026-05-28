@@ -1,5 +1,5 @@
 {
-  "session-e5614a4f-7143-4549-b4dd-d9e814e1c5ad": {
+  "ac665472-9128-47f8-b645-9b9d5a96f266": {
     "policy_type": "Standard",
     "property_type": null,
     "property_size_category": null,
@@ -10,40 +10,7 @@
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-feffb442-44ff-479a-9aae-2bcaf9a2e9ec": {
-    "policy_type": "Standard",
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": "CLM12345",
-    "last_user_intent": "claim_status",
-    "conversation_summary": ""
-  },
-  "session-1f4a1137-9a54-424f-823a-93ef5eacbabe": {
-    "policy_type": "Standard",
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-13265f42-1b4d-4849-bd3a-17472ab881dc": {
-    "policy_type": "Standard",
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-9dd18553-ae62-41c2-8172-fa9641f26ba9": {
+  "session-5988584b-26bc-4b47-82fb-4a89462b3d7b": {
     "policy_type": null,
     "property_type": null,
     "property_size_category": null,
@@ -51,10 +18,21 @@
     "damage_type": null,
     "peril_category": null,
     "claim_id": null,
-    "last_user_intent": null,
+    "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "test": {
+  "session-cd9264ad-5b3f-4eac-be38-b48197cf82ab": {
+    "policy_type": null,
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-1ab6fa90-cdf0-4fd6-a5df-3910c1ea951d": {
     "policy_type": "Standard",
     "property_type": null,
     "property_size_category": null,
@@ -65,51 +43,7 @@
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-d59afce1-80ae-46a1-abf7-e6f82d2a6f74": {
-    "policy_type": null,
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-bf92e04b-bfc5-4c21-b477-69110c92b9b4": {
-    "policy_type": "Standard",
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": "CLM12345",
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-6d22a40c-8f64-4aae-af6f-e5288a094db5": {
-    "policy_type": null,
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-31134eab-f68e-4247-946e-85f169492510": {
-    "policy_type": null,
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-9a3d96a1-49f8-4932-a7a3-2274111d3cd9": {
+  "session-57ad6470-ce2a-4502-a275-16e10dd0337f": {
     "policy_type": "Standard",
     "property_type": null,
     "property_size_category": null,
@@ -120,7 +54,7 @@
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-43f64b37-eb4f-4951-8de8-3c2130a6b083": {
+  "session-b3b1aae5-922d-4d5b-a40d-16e3202c2784": {
     "policy_type": null,
     "property_type": null,
     "property_size_category": null,
@@ -131,73 +65,51 @@
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-0e59f9a9-cd15-42fb-8ccf-09ccbb11ee41": {
-    "policy_type": null,
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-216cdcf8-48f4-47c1-bbff-965d32bedc38": {
-    "policy_type": null,
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "test-session": {
-    "policy_type": null,
-    "property_type": null,
-    "property_size_category": null,
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": null,
-    "claim_id": null,
-    "last_user_intent": "policy_rag",
-    "conversation_summary": ""
-  },
-  "session-6e284059-57f8-49b7-a59c-f2fe95c17808": {
+  "session-5aa52258-c2aa-4a39-914a-eb8bae10ba57": {
     "policy_type": "Standard",
     "property_type": null,
     "property_size_category": null,
     "postcode": null,
     "damage_type": null,
     "peril_category": null,
-    "claim_id": "CLM12345",
+    "claim_id": null,
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-a3a623ad-8aa3-469a-9022-847a23f17b0c": {
-    "policy_type": null,
+  "session-5530ffcc-88ed-4872-9cd1-a9889abd51c4": {
+    "policy_type": "Standard",
     "property_type": null,
     "property_size_category": null,
     "postcode": null,
     "damage_type": null,
     "peril_category": null,
-    "claim_id": "CLM67890",
+    "claim_id": null,
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-f79c17d1-6923-4f5a-ba35-75ae1d97b183": {
+  "session-1ef1f2cf-47b6-4f5f-92aa-42d405e13239": {
     "policy_type": "Standard",
     "property_type": null,
-    "property_size_category": "3-bed semi-detached house",
+    "property_size_category": null,
     "postcode": null,
-    "damage_type": "burst pipe",
-    "peril_category": "Water",
-    "claim_id": "CLM1234",
-    "last_user_intent": "claim_status",
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-346ded5e-9505-4519-8126-783cb9765301": {
+  "session-c07b5779-bb84-4ae1-bcb0-e68470806ddc": {
+    "policy_type": "Standard",
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-fa46852d-d322-40d3-b881-532d0f9d28ba": {
     "policy_type": null,
     "property_type": null,
     "property_size_category": null,
@@ -208,29 +120,18 @@
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-a6dcf96e-787b-4cde-bbb6-2252205daa0d": {
-    "policy_type": "Comprehensive",
-    "property_type": null,
-    "property_size_category": "4-bed detached house",
-    "postcode": null,
-    "damage_type": null,
-    "peril_category": "Storm",
-    "claim_id": "CLMSTORM01",
-    "last_user_intent": "claim_status",
-    "conversation_summary": ""
-  },
-  "session-169ea6bb-5741-4a3f-bfaa-a90e704b231e": {
+  "session-513158ff-b6e9-41c2-99ee-3447f8c7fa71": {
     "policy_type": "Standard",
     "property_type": null,
-    "property_size_category": "3-bed semi-detached house",
+    "property_size_category": null,
     "postcode": null,
-    "damage_type": "burst pipe",
-    "peril_category": "Water",
-    "claim_id": "CLM12345",
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-a87d56bb-589b-4830-a38a-5333fd7a9290": {
+  "session-326ba001-4f8a-41de-ab96-72d2ddaf83cb": {
     "policy_type": null,
     "property_type": null,
     "property_size_category": null,
@@ -241,14 +142,25 @@
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   },
-  "session-100d34cf-c8d7-4554-8b91-481abe2de4e7": {
-    "policy_type": null,
+  "session-38601b46-e4fd-4870-97ab-55eff8241280": {
+    "policy_type": "Standard",
     "property_type": null,
     "property_size_category": null,
     "postcode": null,
     "damage_type": null,
     "peril_category": null,
-    "claim_id": "CLM12345",
+    "claim_id": null,
+    "last_user_intent": "policy_rag",
+    "conversation_summary": ""
+  },
+  "session-b9b716bd-814a-4461-9cf6-1c0bb80013ed": {
+    "policy_type": "Standard",
+    "property_type": null,
+    "property_size_category": null,
+    "postcode": null,
+    "damage_type": null,
+    "peril_category": null,
+    "claim_id": null,
     "last_user_intent": "policy_rag",
     "conversation_summary": ""
   }

@@ -8,5 +8,72 @@ uvicorn app.main:app --reload --reload-dir app --host 0.0.0.0 --port 8000
 
 curl 
 
-
+python3 -m py_compile qdrant_client.py
 python3 -m streamlit run app/frontend/streamlit_app.py
+
+
+sudo growpart /dev/xvda 1
+sudo resize2fs /dev/xvda1
+df -h
+
+
+
+
+python3 -m app.document_loader
+python3 -m app.ingest_qdrant
+
+
+
+
+
+
+
+termianl:  --optinal
+--------------
+Auto Start on Server Boot:
+sudo docker update --restart unless-stopped qdrant
+
+
+terminal1:
+---------------
+#whenever your EC2/VM restarts, you only need:
+sudo docker start qdrant
+
+#Check if running:
+sudo docker ps
+
+#Start services: --imp
+sudo docker start qdrant
+
+#Then run FastAPI:
+source venv/bin/activate
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+curl http://localhost:6333
+curl -X POST http://localhost:8000/chat   
+-id":"test-session","message":"What does my policy cover?"}'  
+-H "Content-Type: application/json" 
+
+#Then Streamlit:
+python3 -m streamlit run app/frontend/streamlit_app.py
+
+
+
+
+
+
+
+python3 document_loader.py
+python3 guardrails.py
+python3 llm_client.py
+python3 mem0_memory.py
+python3 schemas.py
+python3 langchain_qdrant_rag.py
+python3 rag.py
+python3 __init__.py
+python3 config.py
+python3 agent.py
+python3 faq_memory.py 
+python3 ingest_qdrant.py         
+python3 llm_client_langchain.py 
+python3 memory.py

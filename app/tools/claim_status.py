@@ -1,5 +1,7 @@
 import hashlib
-from app.schemas import ClaimStatusResponse
+import sys
+sys.path.append("/home/ubuntu/homeshield-insurance-copilot_02/app")
+from schemas import ClaimStatusResponse
 
 
 STATUSES = [

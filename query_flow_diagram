@@ -1,0 +1,30 @@
+User enters queries
+|
+↓
+Streamlit Frontend (app/frontend/streamlit_app.py)
+|
+↓
+FastAPI Backend (app/main.py)
+|
+↓
+Agent Orchestrator (app/agent.py)
+|
+↓
+Intent Detection + Memory Update
+|
+↓
+Route to one of:
+  . RAG Retriever
+  . Damage Estimator
+  . Claim Status Tool
+  . Policy Compare Tool
+  . Memory Manager
+|
+↓
+Guardrails Layer (app/guardrails.py)
+|
+↓
+Final Response
+|
+↓
+Streamlit UI displays (answer, intent, memory, and sources) 

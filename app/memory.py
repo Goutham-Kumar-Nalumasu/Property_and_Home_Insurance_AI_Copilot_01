@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict
 
-from app.config import settings
+from config import settings
 
 
 DEFAULT_MEMORY = {

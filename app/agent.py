@@ -1,14 +1,20 @@
 import re
+import sys
+sys.path.append("/home/ubuntu/homeshield-insurance-copilot_02/app")
+sys.path.append("/home/ubuntu/homeshield-insurance-copilot_02/app/tools")
 from typing import Dict, List, Tuple
-from app.llm_client import generate_llm_answer
-from app.guardrails import apply_response_guardrails
-from app.memory import memory_manager
-from app.rag import rag_retriever
-from app.schemas import Source
-from app.tools.claim_status import get_claim_status
-from app.tools.damage_estimator import damage_estimator
-from app.tools.policy_compare import compare_policies, get_policy_summary
-
+from llm_client import generate_llm_answer
+from guardrails import apply_response_guardrails
+from memory import memory_manager
+from rag import rag_retriever
+from schemas import Source
+from claim_status import get_claim_status
+from damage_estimator import damage_estimator
+from policy_compare import compare_policies, get_policy_summary
+from faq_memory import faq_memory
+from mem0_memory import mem0_memory
+from langchain_qdrant_rag import rag_retriever
+from llm_client_langchain import llm_client
 
 def detect_policy_type(message: str) -> str | None:
     lower = message.lower()
@@ -180,7 +186,7 @@ def answer_policy_rag(message: str, memory: Dict) -> Tuple[str, List[Source]]:
 
     return answer, format_sources(results)
 """
-
+"""
 def answer_policy_rag(message: str, memory: Dict) -> Tuple[str, List[Source]]:
     policy_type = memory.get("policy_type")
     results = rag_retriever.search(message, policy_type=policy_type)
@@ -207,6 +213,192 @@ def answer_policy_rag(message: str, memory: Dict) -> Tuple[str, List[Source]]:
     )
 
     return answer, format_sources(results)
+"""
+
+
+"""
+def answer_policy_rag(message: str, memory: dict, session_id: str):
+    # 1. Redis FAQ top-layer check
+    faq_memory.increment_question_count(message)
+    cached_answer = faq_memory.get_cached_answer(message)
+
+    if cached_answer:
+        return cached_answer, []
+
+    # 2. Search Qdrant via LangChain
+    policy_type = memory.get("policy_type")
+    results = rag_retriever.search(
+        query=message,
+        top_k=5,
+        policy_type=policy_type,
+    )
+
+    if not results:
+        answer = (
+            "I could not find relevant indexed policy content. "
+            "Please run document ingestion and Qdrant ingestion first."
+        )
+        return answer, []
+
+    retrieved_context = "\n\n".join(
+        [
+            f"Source: {item['document']} | Chunk: {item['chunk_id']}\n{item['text']}"
+            for item in results
+        ]
+    )
+
+    # 3. Search Mem0 long-term memory
+    long_term_memory = mem0_memory.search_user_memory(
+        user_id=session_id,
+        query=message,
+        limit=5,
+    )
+
+    # 4. Generate answer with LangChain + OpenAI
+    answer = llm_client.generate_answer(
+        question=message,
+        retrieved_context=retrieved_context,
+        session_memory=memory,
+        long_term_memory=long_term_memory,
+    )
+
+    # 5. Store interaction in Mem0
+    mem0_memory.add_interaction(
+        user_id=session_id,
+        user_message=message,
+        assistant_message=answer,
+        metadata={
+            "source": "homeshield_policy_rag",
+            "policy_type": policy_type,
+        },
+    )
+
+    # 6. Cache in Redis only if this is frequently asked
+    if faq_memory.should_cache(message):
+        faq_memory.cache_answer(
+            question=message,
+            answer=answer,
+            metadata={
+                "policy_type": policy_type,
+                "source": "redis_faq_top_layer",
+            },
+        )
+
+    sources = [
+        {
+            "document": item["document"],
+            "chunk_id": item["chunk_id"],
+            "score": round(item["score"], 4),
+            "text_preview": item["text"][:250] + "...",
+        }
+        for item in results
+    ]
+
+    return answer, sources
+"""
+def answer_policy_rag(message: str, memory: dict, session_id: str):
+
+    faq_memory.increment_question_count(message)
+
+    cached_answer = faq_memory.get_cached_answer(message)
+
+    if cached_answer:
+        return cached_answer, []
+
+    policy_type = memory.get("policy_type")
+
+    results = rag_retriever.search(
+        query=message,
+        top_k=10,
+        policy_type=policy_type,
+    )
+
+    print("\n========== RAG RESULTS ==========")
+    print(results)
+    print("=================================\n")
+
+    if not results:
+        answer = (
+            "I could not find relevant indexed policy content. "
+            "Please run document ingestion and Qdrant ingestion first."
+        )
+
+        return answer, []
+
+    retrieved_context = "\n\n".join(
+        [
+            f"Source: {item['document']} | Chunk: {item['chunk_id']}\n{item['text']}"
+            for item in results
+        ]
+    )
+
+    long_term_memory = mem0_memory.search_user_memory(
+        user_id=session_id,
+        query=message,
+        limit=5,
+    )
+
+    answer = llm_client.generate_answer(
+        question=message,
+        retrieved_context=retrieved_context,
+        session_memory=memory,
+        long_term_memory=long_term_memory,
+    )
+
+    mem0_memory.add_interaction(
+        user_id=session_id,
+        user_message=message,
+        assistant_message=answer,
+        metadata={
+            "source": "homeshield_policy_rag",
+            "policy_type": policy_type,
+        },
+    )
+
+    if faq_memory.should_cache(message):
+
+        faq_memory.cache_answer(
+            question=message,
+            answer=answer,
+            metadata={
+                "policy_type": policy_type,
+                "source": "redis_faq_top_layer",
+            },
+        )
+
+    sources = []
+
+    for item in results:
+
+        sources.append(
+            {
+                "document": item.get(
+                    "document",
+                    "Unknown"
+                ),
+
+                "chunk_id": item.get(
+                    "chunk_id",
+                    ""
+                ),
+
+                "score": round(
+                    item.get("score", 0),
+                    4
+                ),
+
+                "text_preview": item.get(
+                    "text",
+                    ""
+                )[:250] + "..."
+            }
+        )
+
+    print("\n========== SOURCES ==========")
+    print(sources)
+    print("=============================\n")
+
+    return answer, sources
 
 
 def answer_damage_estimate(message: str, memory: Dict) -> str:
@@ -298,7 +490,7 @@ def run_agent(session_id: str, message: str) -> Dict:
                 answer += f"- {key.replace('_', ' ').title()}: {value}\n"
 
     else:
-        answer, sources = answer_policy_rag(message, memory)
+        answer, sources = answer_policy_rag(message, memory, session_id)
 
     answer = apply_response_guardrails(answer)
 
